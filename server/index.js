@@ -36,9 +36,12 @@
 
 
 //Web-сервер с HTML-страницами
+//Создание простого REST-сервера
+
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const user = require('./user')
 
 const server = http.createServer((request, response) => {
     if (request.method === 'GET') {
@@ -66,6 +69,13 @@ const server = http.createServer((request, response) => {
                     response.end(content)
                 }
             )
+        }
+        if (request.url === '/about/getUsers') {
+            response.writeHead(200, {
+                'Content-Type': 'text/json'
+            })
+
+            response.end(JSON.stringify(user.user))
         }
     }
 
