@@ -20,6 +20,9 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const app = express();
+const main = require('./routers/main.js')
+const add = require('./routers/add.js')
+const courses = require('./routers/courses.js')
 const PORT = process.env.PORT || 3000;
 
 const hbs = exphbs.create({
@@ -31,13 +34,11 @@ app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', 'main_folder')
 
-app.get('/', (request, response) => {
-    response.render('index')
-})
-
-app.get('/about', (request, response) => {
-    response.render('about')
-})
+app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
+app.use('/', main)
+app.use('/courses', courses)
+app.use('/add', add)
 
 app.listen(PORT, () => {
     console.log('server go....');
