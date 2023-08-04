@@ -52,6 +52,10 @@ class Course {
             )
         })
     }
+    async getById(id) {
+        const allCourse = await this.getAll();
+        return allCourse.find(item => item.id === id)
+    }
 }
 
 module.exports = Course;
