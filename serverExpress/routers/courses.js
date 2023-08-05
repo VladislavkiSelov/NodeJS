@@ -21,4 +21,18 @@ router.get('/:id', async (request, response) => {
     })
 })
 
+router.get('/:id/edit', async (request, response) => {
+    const coursClass = new Course;
+    const course = await coursClass.getById(request.params.id)
+    response.render('edit', {
+        course
+    })
+})
+
+router.post('/:id/edit', async (request, response) => {
+    const coursClass = new Course;
+    await coursClass.editCourse(request.body)
+    response.redirect('/')
+})
+
 module.exports = router;

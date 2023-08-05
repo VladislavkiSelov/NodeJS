@@ -23,7 +23,7 @@ class Course {
     async save() {
         let courses = await this.getAll();
         courses.push(this.jsonOBj())
-        console.log(courses);
+
         return new Promise((resolve, reject) => {
             fs.writeFile(
                 path.join(__dirname, '..', 'data', 'data.json'),
@@ -52,9 +52,30 @@ class Course {
             )
         })
     }
+
     async getById(id) {
         const allCourse = await this.getAll();
+        console.log(id);
         return allCourse.find(item => item.id === id)
+    }
+
+    async editCourse(body) {
+        const courses = await this.getAll();
+        const indx = courses.findIndex(i => i.id = body.id)
+        courses[indx] = body;
+        return new Promise((resolve, reject) => {
+            fs.writeFile(
+                path.join(__dirname, '..', 'data', 'data.json'),
+                JSON.stringify(courses),
+                (err) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve()
+                    }
+                }
+            )
+        })
     }
 }
 
