@@ -3,8 +3,7 @@ const Course = require('../models/course')
 const router = Router();
 
 router.get('/', async (request, response) => {
-    const res = new Course;
-    const courses = await res.getAll()
+    const courses = await Course.getAll()
     response.render('courses', {
         title: 'Страница курсов',
         isCourses: true,
@@ -13,25 +12,21 @@ router.get('/', async (request, response) => {
 })
 
 router.get('/:id', async (request, response) => {
-    const coursClass = new Course;
-    const course = await coursClass.getById(request.params.id)
-    console.log(course);
+    const course = await Course.getById(request.params.id)
     response.render('course', {
         course
     })
 })
 
 router.get('/:id/edit', async (request, response) => {
-    const coursClass = new Course;
-    const course = await coursClass.getById(request.params.id)
+    const course = await Course.getById(request.params.id)
     response.render('edit', {
         course
     })
 })
 
 router.post('/:id/edit', async (request, response) => {
-    const coursClass = new Course;
-    await coursClass.editCourse(request.body)
+    await Course.editCourse(request.body)
     response.redirect('/')
 })
 

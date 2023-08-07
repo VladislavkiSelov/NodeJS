@@ -21,7 +21,7 @@ class Course {
     }
 
     async save() {
-        let courses = await this.getAll();
+        let courses = await Course.getAll();
         courses.push(this.jsonOBj())
 
         return new Promise((resolve, reject) => {
@@ -39,13 +39,12 @@ class Course {
         })
     }
 
-    getAll() {
+    static getAll() {
         return new Promise((resolve, reject) => {
             fs.readFile(
                 path.join(__dirname, '..', 'data', 'data.json'),
                 'utf-8',
                 (err, content) => {
-                    console.log('this err', err);
                     if (err) reject(err);
                     resolve(JSON.parse(content))
                 }
@@ -53,13 +52,12 @@ class Course {
         })
     }
 
-    async getById(id) {
+    static async getById(id) {
         const allCourse = await this.getAll();
-        console.log(id);
         return allCourse.find(item => item.id === id)
     }
 
-    async editCourse(body) {
+    static async editCourse(body) {
         const courses = await this.getAll();
         const indx = courses.findIndex(i => i.id = body.id)
         courses[indx] = body;

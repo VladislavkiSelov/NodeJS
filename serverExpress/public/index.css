@@ -5,3 +5,9 @@
 .price {
     font-size: 2em;
 }
+
+.btn_box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
