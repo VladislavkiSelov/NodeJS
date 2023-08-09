@@ -35,13 +35,12 @@ class Card {
     static async delete(id) {
         let card = await Card.fetch();
         const indx = card.courses.findIndex(i => i.id === id)
+        card.price -= card.courses[indx].price;
         if (card.courses[indx].number === 1) {
             card.courses = card.courses.filter(item => item.id !== id)
         } else {
             card.courses[indx].number--;
         }
-
-        card.price -= card.courses[indx].price;
 
         return new Promise((resolve, reject) => {
             fs.writeFile(
