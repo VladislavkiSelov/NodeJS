@@ -24,6 +24,7 @@ const main = require('./routers/main.js')
 const add = require('./routers/add.js')
 const card = require('./routers/card.js')
 const courses = require('./routers/courses.js')
+const path = require('path')
 const mongoose = require('mongoose')
 const PORT = process.env.PORT || 3000;
 
@@ -39,7 +40,7 @@ app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', 'main_folder')
 
-app.use(express.static('public'))
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }))
 app.use('/', main)
 app.use('/courses', courses)
