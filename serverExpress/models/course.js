@@ -95,6 +95,10 @@ const course = new Schema({
     },
     img: String,
 
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }
 })
 
 
