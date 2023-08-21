@@ -40,6 +40,7 @@ User.methods.addToCard = function (course) {
         })
     }
     this.cart = { items }
+    return this.save()
 }
 
 module.exports = model('User', User)
