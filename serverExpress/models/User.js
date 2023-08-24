@@ -43,4 +43,17 @@ User.methods.addToCard = function (course) {
     return this.save()
 }
 
+User.methods.removeFromCart = function (id) {
+    const items = [...this.cart.items]
+    const indx = items.findIndex(i => i.courseId.toString() === id.toString())
+    if (items[indx].count === 1) {
+        items = items.filter((i) => {
+            return i.courseId.toString() !== id.toString()
+        })
+    } else {
+        items[indx].count--
+    }
+    this.cart = { items }
+    return this.save()
+}
 module.exports = model('User', User)

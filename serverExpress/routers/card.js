@@ -41,6 +41,20 @@ const Course = require('../models/Course')
 const Card = require('../models/Card')
 const router = Router();
 
+function mapCardItems(cart) {
+    return cart.items.map(c => ({
+        ...c.courseId._doc,
+        id: c.courseId.id,
+        count: c.count
+    }))
+}
+
+function computePrice(courses) {
+    return courses.reduce((total, course) => {
+        return total += course.price * course.count
+    }, 0)
+}
+
 router.post('/add', async (request, response) => {
     const course = await Course.findById(request.body.id);
     await request.user.addToCard(course)
@@ -48,18 +62,28 @@ router.post('/add', async (request, response) => {
 })
 
 router.delete('/delete/:id', async (request, response) => {
-    const card = await Card.delete(request.params.id);
-    console.log(card);
+    await request.user.removeFromCart(request.params.id)
+    const user = await request.user.populate('cart.items.courseId')
+    const courses = mapCardItems(user.cart)
+    const card = {
+        courses,
+        price: computePrice(courses)
+    }
     response.status(200).json(card)
 })
 
 router.get('/', async (request, response) => {
-    const card = await Card.fetch();
+
+    const user = await request.user.populate('cart.items.courseId')
+    console.log(user.cart.items);
+
+    const courses = mapCardItems(user.cart)
+
     response.render('card', {
         title: 'Корзина',
         isCard: true,
-        courses: card.courses,
-        price: card.price
+        courses: courses,
+        price: computePrice(courses)
     })
 })
 
