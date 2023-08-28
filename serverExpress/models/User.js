@@ -44,7 +44,7 @@ User.methods.addToCard = function (course) {
 }
 
 User.methods.removeFromCart = function (id) {
-    const items = [...this.cart.items]
+    let items = [...this.cart.items]
     const indx = items.findIndex(i => i.courseId.toString() === id.toString())
     if (items[indx].count === 1) {
         items = items.filter((i) => {

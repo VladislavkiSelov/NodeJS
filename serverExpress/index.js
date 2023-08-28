@@ -26,6 +26,7 @@ const card = require('./routers/card.js')
 const courses = require('./routers/courses.js')
 const User = require('./models/User.js')
 const path = require('path')
+const orders = require('./routers/orders')
 const mongoose = require('mongoose')
 
 const PORT = process.env.PORT || 3000;
@@ -55,6 +56,7 @@ app.use('/', main)
 app.use('/courses', courses)
 app.use('/add', add)
 app.use('/card', card)
+app.use('/orders', orders)
 
 async function start() {
     try {

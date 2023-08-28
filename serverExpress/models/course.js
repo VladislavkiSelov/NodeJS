@@ -101,7 +101,7 @@ const course = new Schema({
     }
 })
 
-courseSchema.method('toClient', function () {
+course.method('toClient', function () {
     const course = this.toObject()
     course.id = course._id
     delete course._id

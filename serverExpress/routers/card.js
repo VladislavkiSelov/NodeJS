@@ -65,6 +65,7 @@ router.delete('/delete/:id', async (request, response) => {
     await request.user.removeFromCart(request.params.id)
     const user = await request.user.populate('cart.items.courseId')
     const courses = mapCardItems(user.cart)
+    console.log(courses);
     const card = {
         courses,
         price: computePrice(courses)
@@ -73,10 +74,7 @@ router.delete('/delete/:id', async (request, response) => {
 })
 
 router.get('/', async (request, response) => {
-
     const user = await request.user.populate('cart.items.courseId')
-    console.log(user.cart.items);
-
     const courses = mapCardItems(user.cart)
 
     response.render('card', {
