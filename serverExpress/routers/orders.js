@@ -9,6 +9,12 @@ router.get('/', async (request, response) => {
 })
 
 router.post('/', async (request, response) => {
+    const user = await request.user.populate('cart.items.courseId')
+    const courses = user.cart.items.map(i => ({
+        count: i.count,
+        course: { ...i.courseId.toJSON() }
+        //можно использовать метод toJSON, или обратится к _doc
+    }))
     response.redirect('/orders')
 })
 
